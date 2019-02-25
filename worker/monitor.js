@@ -1,4 +1,10 @@
-const { asyncForEach, dumpFrameTree, delay, isLessonQuiz } = require("./utils");
+const {
+  asyncForEach,
+  dumpFrameTree,
+  delay,
+  isLessonQuiz,
+  getTimeInUnixSeconds
+} = require("./utils");
 const { getUsername, getPassword, setStatus, getStatus } = require("./db");
 const puppeteer = require("puppeteer");
 module.exports = class Monitor {
@@ -69,6 +75,15 @@ module.exports = class Monitor {
     await setStatus(haveQuiz, quizCount, quizItems, new Date());
     if (haveQuiz !== prevStatus.haveQuiz) {
       onUpdateCallback();
+    }
+  }
+
+  async startMonitor(onUpdateCallBack) {
+    const { waitFor, restart } = this.config;
+    const startTime = getTimeInUnixSeconds();
+    while (startTime + restart > getTimeInUnixSeconds()) {
+      await this.checkUpdate(onUpdateCallBack);
+      await delay(waitFor * 1000);
     }
   }
 };

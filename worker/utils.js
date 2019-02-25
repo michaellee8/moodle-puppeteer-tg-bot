@@ -28,4 +28,14 @@ function isLessonQuiz(name) {
   return true;
 }
 
-module.exports = { asyncForEach, dumpFrameTree, delay, isLessonQuiz };
+function getTimeInUnixSeconds() {
+  return Math.floor(Date.now() / 1000);
+}
+
+module.exports = {
+  asyncForEach,
+  dumpFrameTree,
+  delay,
+  isLessonQuiz,
+  getTimeInUnixSeconds
+};

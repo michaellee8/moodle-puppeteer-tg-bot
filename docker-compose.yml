@@ -4,14 +4,17 @@ services:
     build: "./ssdb"
     volumes:
       - "/var/lib/ssdb"
+    restart: always
   ssdb-status:
     build: "./ssdb"
     volumes:
       - "/var/lib/ssdb"
+    restart: always
   ssdb-users:
     build: "./ssdb"
     volumes:
       - "/var/lib/ssdb"
+    restart: always
   worker:
     build: "./worker"
     depends_on:
@@ -19,12 +22,14 @@ services:
       - "ssdb-credentials"
       - "ssdb-status"
       - "ssdb-users"
+    restart: always
   bot:
     build: "./bot"
     depends_on:
       - "ssdb-credentials"
       - "ssdb-status"
       - "ssdb-users"
+    restart: always
   test:
     image: "ubuntu:latest"
     stdin_open: true
