@@ -1,0 +1,31 @@
+version: "3"
+services:
+  ssdb-credentials:
+    build: "./ssdb"
+    volumes:
+      - "/var/lib/ssdb"
+  ssdb-status:
+    build: "./ssdb"
+    volumes:
+      - "/var/lib/ssdb"
+  ssdb-users:
+    build: "./ssdb"
+    volumes:
+      - "/var/lib/ssdb"
+  worker:
+    build: "./worker"
+    depends_on:
+      - "bot"
+      - "ssdb-credentials"
+      - "ssdb-status"
+      - "ssdb-users"
+  bot:
+    build: "./bot"
+    depends_on:
+      - "ssdb-credentials"
+      - "ssdb-status"
+      - "ssdb-users"
+  test:
+    image: "ubuntu:latest"
+    stdin_open: true
+    tty: true
