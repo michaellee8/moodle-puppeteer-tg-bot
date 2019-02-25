@@ -1,7 +1,8 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
-service MonitorBot{
+service Bot{
     rpc onStatusUpdate(google.protobuf.Empty) returns (google.protobuf.Empty) {};
-    // rpc clientPing(stream google.protobuf.Empty) returns (google.protobuf.Empty) {};
-    // rpc serverPing(stream google.protobug.Empty) returns (google.protobuf.Empty) {};
+}
+service Worker{
+    rpc resetStatus(google.protobuf.Empty) returns (google.protobuf.Empty) {};
 }

@@ -5,11 +5,15 @@
   "author": "michaellee8",
   "license": "MIT",
   "devDependencies": {
-    "grpc-tools": "^1.7.1"
+    "@types/puppeteer": "^1.12.1",
+    "grpc-tools": "^1.7.1",
+    "prettier": "^1.16.4"
   },
   "dependencies": {
     "google-protobuf": "^3.7.0-rc.2",
-    "grpc": "^1.18.0"
+    "grpc": "^1.18.0",
+    "puppeteer": "^1.12.2",
+    "redis": "^2.8.0"
   },
   "scripts": {
     "gen": "bash proto-gen.sh"
