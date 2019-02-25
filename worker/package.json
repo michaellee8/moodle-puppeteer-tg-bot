@@ -1,0 +1,17 @@
+{
+  "name": "moodle-puppeteer-tg-bot-worker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "michaellee8",
+  "license": "MIT",
+  "devDependencies": {
+    "grpc-tools": "^1.7.1"
+  },
+  "dependencies": {
+    "google-protobuf": "^3.7.0-rc.2",
+    "grpc": "^1.18.0"
+  },
+  "scripts": {
+    "gen": "bash proto-gen.sh"
+  }
+}

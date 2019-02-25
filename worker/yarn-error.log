@@ -1,0 +1,42 @@
+Arguments: 
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add grpc-toools --dev
+
+PATH: 
+  /home/michaellee8/.local/bin:/home/michaellee8/.yarn/bin:/home/michaellee8/perl5/bin:/home/michaellee8/anaconda3/bin:/home/michaellee8/.rvm/gems/ruby-2.6.0/bin:/home/michaellee8/.rvm/gems/ruby-2.6.0@global/bin:/home/michaellee8/.rvm/rubies/ruby-2.6.0/bin:/home/michaellee8/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/michaellee8/.rvm/bin:/home/michaellee8/.rvm/bin:/home/michaellee8/go/bin:/opt/flutter/bin:/home/michaellee8/Android/Sdk/tools:/home/michaellee8/Android/Sdk/tools/bin:/home/michaellee8/Android/Sdk/emulator:/home/michaellee8/Android/Sdk/platform-tools:/home/michaellee8/.yarn/bin:/home/michaellee8/.rvm/bin:/home/michaellee8/.rvm/bin:/home/michaellee8/.rvm/bin:/home/michaellee8/.rvm/bin
+
+Yarn version: 
+  1.13.0
+
+Node version: 
+  10.14.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/grpc-toools: Not found
+      at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66255:18)
+      at Request.self.callback (/usr/share/yarn/lib/cli.js:129397:22)
+      at Request.emit (events.js:182:13)
+      at Request.<anonymous> (/usr/share/yarn/lib/cli.js:130369:10)
+      at Request.emit (events.js:182:13)
+      at IncomingMessage.<anonymous> (/usr/share/yarn/lib/cli.js:130291:12)
+      at Object.onceWrapper (events.js:273:13)
+      at IncomingMessage.emit (events.js:187:15)
+      at endReadableNT (_stream_readable.js:1094:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
+
+npm manifest: 
+  {
+    "name": "moodle-puppeteer-tg-bot-worker",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "michaellee8",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
