@@ -5,24 +5,32 @@ services:
     volumes:
       - "/var/lib/ssdb"
     restart: always
+#    ports:
+#      - "127.0.0.1:8001:8888"
   ssdb-status:
     build: "./ssdb"
     volumes:
       - "/var/lib/ssdb"
     restart: always
+#    ports:
+#      - "127.0.0.1:8002:8888"
   ssdb-users:
     build: "./ssdb"
     volumes:
       - "/var/lib/ssdb"
     restart: always
+#    ports:
+#      - "127.0.0.1:8003:8888"
   worker:
     build: "./worker"
     depends_on:
-      - "bot"
+      # - "bot"
       - "ssdb-credentials"
       - "ssdb-status"
       - "ssdb-users"
     restart: always
+    cap_add:
+      - SYS_ADMIN
   bot:
     build: "./bot"
     depends_on:
