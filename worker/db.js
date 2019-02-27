@@ -2,11 +2,11 @@ const redis = require("redis");
 const { promisify } = require("util");
 
 // noinspection JSUnresolvedVariable
-const credentialDbHost = process.env.CREDENTIAL_DB_HOST || "ssdb-credentials";
+const credentialDbHost = process.env.CREDENTIALS_DB_HOST || "ssdb-credentials";
 // noinspection JSUnresolvedVariable
 const statusDbHost = process.env.STATUS_DB_HOST || "ssdb-status";
 // noinspection JSUnresolvedVariable
-const credentialDbPort = process.env.CREDENTIAL_DB_PORT || "8888";
+const credentialDbPort = process.env.CREDENTIALS_DB_PORT || "8888";
 // noinspection JSUnresolvedVariable
 const statusDbPort = process.env.STATUS_DB_PORT || "8888";
 
