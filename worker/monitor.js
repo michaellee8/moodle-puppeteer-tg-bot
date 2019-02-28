@@ -1,5 +1,5 @@
-const { delay, isLessonQuiz, getTimeInUnixSeconds } = require("./utils");
-const { setStatus, getStatus } = require("./db");
+const {delay, isLessonQuiz, getTimeInUnixSeconds} = require("./utils");
+const {setStatus, getStatus} = require("./db");
 const puppeteer = require("puppeteer");
 module.exports = class Monitor {
   constructor(config) {
@@ -7,7 +7,7 @@ module.exports = class Monitor {
   }
 
   async init() {
-    const { username, password, timeout, baseUrl } = this.config;
+    const {username, password, timeout, baseUrl} = this.config;
 
     // Set the original status if they does not exists
     if ((await getStatus()).haveQuiz == null) {
@@ -15,8 +15,9 @@ module.exports = class Monitor {
       await setStatus(false, 0, [], new Date());
     }
     this.browser = await puppeteer.launch({
-      timeout: timeout * 1000
-      // headless: false
+      timeout: timeout * 1000,
+      // noinspection JSUnresolvedVariable
+      headless: process.env.VISUAL_MODE !== "1"
     });
     await delay(1000);
     const loginPage = await this.browser.newPage();
@@ -32,7 +33,8 @@ module.exports = class Monitor {
     await loginPage.type("#username", username);
     await loginPage.type("#password", password);
 
-    // await loginPage.click('input[alt="Log In"]');
+    await loginPage.click('input[alt="Log In"]');
+    // console.log("hi by fd");
     await loginPage.waitForSelector(
       'a[href="http://moodle.hku.hk/course/view.php?id=66155"]'
     );
@@ -66,10 +68,11 @@ module.exports = class Monitor {
     if (haveQuiz !== prevStatus.haveQuiz) {
       onUpdateCallback();
     }
+    console.log("checked update")
   }
 
   async startMonitor(onUpdateCallBack) {
-    const { waitFor, restart } = this.config;
+    const {waitFor, restart} = this.config;
     const startTime = getTimeInUnixSeconds();
     while (startTime + restart > getTimeInUnixSeconds()) {
       await this.checkUpdate(onUpdateCallBack);

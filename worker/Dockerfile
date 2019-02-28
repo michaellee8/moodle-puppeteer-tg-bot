@@ -37,11 +37,14 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /node_modules
 
-# Prepare the code into image
-COPY . /app
-
 # Get into the code directory
 WORKDIR /app
+
+COPY ./package.json ./yarn.lock /app/
+RUN yarn
+
+# Prepare the code into image
+COPY . /app
 
 # Use yarn to install packages
 RUN yarn

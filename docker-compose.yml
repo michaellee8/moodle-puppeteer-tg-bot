@@ -5,22 +5,22 @@ services:
     volumes:
       - "/var/lib/ssdb"
     restart: always
-#    ports:
-#      - "127.0.0.1:8001:8888"
+    ports:
+      - "127.0.0.1:8001:8888"
   ssdb-status:
     build: "./ssdb"
     volumes:
       - "/var/lib/ssdb"
     restart: always
-#    ports:
-#      - "127.0.0.1:8002:8888"
+    ports:
+      - "127.0.0.1:8002:8888"
   ssdb-users:
     build: "./ssdb"
     volumes:
       - "/var/lib/ssdb"
     restart: always
-#    ports:
-#      - "127.0.0.1:8003:8888"
+    ports:
+      - "127.0.0.1:8003:8888"
   worker:
     build: "./worker"
     depends_on:
@@ -39,6 +39,12 @@ services:
       - "ssdb-users"
     restart: always
   test:
-    image: "ubuntu:latest"
+    build: "./test"
+    stdin_open: true
+    tty: true
+  cred:
+    build: "./cred"
+    depends_on:
+      - "ssdb-credentials"
     stdin_open: true
     tty: true
