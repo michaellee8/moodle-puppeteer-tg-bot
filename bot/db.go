@@ -66,9 +66,13 @@ func (server *Server) GetStatus() (Status, error) {
 }
 
 func (server *Server) ForEachUsers(fun func(uid string, role string) error) error {
-	iter := server.usersDbClient.Scan(0, "", 0).Iterator()
-	for iter.Next() {
-		uid := iter.Val()
+	res, err := server.usersDbClient.Do("keys", "", "", 100000).Result()
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	ss := res.([]interface{})
+	for _, iv := range ss {
+		uid := iv.(string)
 		role, err := server.usersDbClient.Get(uid).Result()
 		if err != nil {
 			return errors.WithStack(err)
@@ -78,9 +82,7 @@ func (server *Server) ForEachUsers(fun func(uid string, role string) error) erro
 			return err
 		}
 	}
-	if err := iter.Err(); err != nil {
-		return errors.WithStack(err)
-	}
+
 	return nil
 }
 

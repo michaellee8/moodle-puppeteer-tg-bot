@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Start worker locally" type="NodeJSConfigurationType" path-to-js-file="index.js" working-dir="$PROJECT_DIR$/worker">
+    <envs>
+      <env name="CREDENTIALS_DB_HOST" value="127.0.0.1" />
+      <env name="CREDENTIALS_DB_PORT" value="8001" />
+      <env name="STATUS_DB_HOST" value="127.0.0.1" />
+      <env name="STATUS_DB_PORT" value="8002" />
+      <env name="VISUAL_MODE" value="1" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>

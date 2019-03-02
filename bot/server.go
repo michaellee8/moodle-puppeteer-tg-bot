@@ -9,6 +9,7 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"net"
+	"strconv"
 	"time"
 )
 
@@ -23,11 +24,13 @@ type botService struct {
 }
 
 func (service *botService) OnStatusUpdate(context.Context, *pb.Empty) (*pb.Empty, error) {
+	log.Println("OnStatusUpdate triggered!")
 	service.server.Broadcast()
-	return nil, nil
+	return &pb.Empty{}, nil
 }
 
 func (server *Server) Init() error {
+	log.Println("Performing init")
 
 	server.usersDbClient = redis.NewClient(&redis.Options{
 		Addr: fmt.Sprintf(
@@ -50,47 +53,69 @@ func (server *Server) Init() error {
 	if err != nil {
 		return err
 	}
+	log.Println("Created bot")
 	lis, err := net.Listen("tcp", "0.0.0.0:12345")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	grpcServer := grpc.NewServer()
 	pb.RegisterBotServer(grpcServer, &botService{server: server})
-	err = grpcServer.Serve(lis)
-	if err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
+	go func() {
+		err := grpcServer.Serve(lis)
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}()
 	server.bot = bot
 	return nil
 }
 
 func (server *Server) RegisterCommands() {
-	server.bot.Handle("start", func(m *telebot.Message) {
-		_, err := server.bot.Send(m.Sender, "Welcome to this Moodle monitoring bot", nil)
+	server.bot.Handle("/start", func(m *telebot.Message) {
+		log.Println("Received start")
+		_, err := server.bot.Send(m.Sender, "Welcome to this Moodle monitoring bot")
 		if err != nil {
+			log.Fatalln(err)
 			return
 		}
-		uid := string(m.Sender.ID)
+		uid := strconv.FormatInt(int64(m.Sender.ID), 10)
 		u, err := server.GetOrAdd(uid)
 		if err != nil {
+			log.Fatalln(err)
 			return
 		}
 		_, err = server.bot.Send(m.Sender, fmt.Sprintf("Hello user with Telegram user ID %s, you are registered as %s now.", u.uid, u.role))
 		if err != nil {
+			log.Fatalln(err)
 			return
 		}
 	})
-	server.bot.Handle("status", func(m *telebot.Message) {
+	server.bot.Handle("/status", func(m *telebot.Message) {
+		log.Println("Received status")
 		s, err := server.GetStatus()
 		if err != nil {
+			log.Fatalln(err)
 			return
 		}
-		_, err = server.bot.Send(m.Sender, fmt.Sprintf("%+v", s))
-		_, err = server.bot.Send(m.Sender, fmt.Sprintf("Last update is %s s ago", time.Since(s.lastUpdate)))
+		msg := ""
+		msg += fmt.Sprintf("haveQuiz: %t\n", s.haveQuiz)
+		msg += fmt.Sprintf("quizCount: %d\n", s.quizCount)
+		msg += fmt.Sprintf("quizItems:\n")
+		for _, s := range s.quizItems {
+			msg += s
+			msg += "\n"
+		}
+		msg += fmt.Sprintf("lastUpdate: %s", s.lastUpdate.String())
+		_, err = server.bot.Send(m.Sender, msg)
+		_, err = server.bot.Send(m.Sender, fmt.Sprintf("Last update is %s ago", time.Since(s.lastUpdate)))
 	})
-	server.bot.Handle("brodcast", func(_ *telebot.Message) {
+	server.bot.Handle("/broadcast", func(_ *telebot.Message) {
+		log.Println("Received broadcast")
 		server.Broadcast()
 	})
+	log.Println("Bot started")
+	server.bot.Start()
+
 }
 
 type MsgTarget struct {

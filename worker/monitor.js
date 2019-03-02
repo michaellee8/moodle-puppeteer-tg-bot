@@ -36,7 +36,7 @@ module.exports = class Monitor {
     await loginPage.click('input[alt="Log In"]');
     // console.log("hi by fd");
     await loginPage.waitForSelector(
-      'a[href="http://moodle.hku.hk/course/view.php?id=66155"]'
+      'a[href="http://moodle.hku.hk/course/view.php?id=66155"]', {timeout: 10 * 1000}
     );
     await loginPage.click(
       'a[href="http://moodle.hku.hk/course/view.php?id=66155"]'

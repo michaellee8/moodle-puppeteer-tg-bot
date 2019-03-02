@@ -1,5 +1,6 @@
 const grpc = require("grpc");
 const services = require("./grpc/moodle-puppeteer-tg-bot_grpc_pb");
+const messages = require("./grpc/moodle-puppeteer-tg-bot_pb");
 const {getUsername, getPassword} = require("./db");
 const waitForSeconds = parseInt(process.env.WAIT_FOR_SECONDS) || 5;
 const restartSeconds = parseInt(process.env.RESTART_SECONDS) || 60;
@@ -7,6 +8,7 @@ const timeoutSeconds = parseInt(process.env.TIMEOUT_SECONDS) || 10;
 const baseUrl = process.env.BASE_URL || "moodle.hku.hk";
 const botUrl = process.env.BOT_URL;
 const Monitor = require("./monitor");
+
 
 async function main() {
   let onUpdateCallback = () => {
@@ -21,8 +23,10 @@ async function main() {
       console.log("update received");
     };
     onUpdateCallback = () => {
-      return botClient.onStatusUpdate({}, onUpdateRecived);
+      console.log("update with grpc");
+      return botClient.onStatusUpdate(new messages.Empty(), onUpdateRecived);
     };
+    console.log("Registered grpc")
   }
   let m = new Monitor({
     username: await getUsername(),
