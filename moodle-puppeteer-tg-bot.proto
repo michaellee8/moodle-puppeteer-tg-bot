@@ -1,8 +1,12 @@
 syntax = "proto3";
-import "google/protobuf/empty.proto";
-service Bot{
-    rpc onStatusUpdate(google.protobuf.Empty) returns (google.protobuf.Empty) {};
+service Bot {
+    rpc onStatusUpdate (Empty) returns (Empty) {
+    };
 }
-service Worker{
-    rpc resetStatus(google.protobuf.Empty) returns (google.protobuf.Empty) {};
+service Worker {
+    rpc resetStatus (Empty) returns (Empty) {
+    };
+}
+
+message Empty {
 }

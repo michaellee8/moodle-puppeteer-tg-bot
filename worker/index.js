@@ -1,6 +1,6 @@
 const grpc = require("grpc");
 const services = require("./grpc/moodle-puppeteer-tg-bot_grpc_pb");
-const { getUsername, getPassword } = require("./db");
+const {getUsername, getPassword} = require("./db");
 const waitForSeconds = parseInt(process.env.WAIT_FOR_SECONDS) || 5;
 const restartSeconds = parseInt(process.env.RESTART_SECONDS) || 60;
 const timeoutSeconds = parseInt(process.env.TIMEOUT_SECONDS) || 10;

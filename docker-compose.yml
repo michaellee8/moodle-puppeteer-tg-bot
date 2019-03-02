@@ -28,6 +28,8 @@ services:
       - "ssdb-credentials"
       - "ssdb-status"
       - "ssdb-users"
+    environment:
+      BOT_URL: "bot:12345"
     restart: always
     cap_add:
       - SYS_ADMIN
